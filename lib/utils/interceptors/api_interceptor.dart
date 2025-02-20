@@ -3,8 +3,9 @@
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:logger/logger.dart';
-import 'package:payroll_by_cc/core/config/env/env.dart';
-import 'package:payroll_by_cc/services/auth_service.dart';
+import 'package:myapp/core/config/env/env.dart';
+import 'package:myapp/services/auth_service.dart';
+
 
 import '../../core/config/env/staging_env.dart';
 
@@ -27,7 +28,7 @@ class ApiInterceptor extends dio.Interceptor {
     options.headers.addAll({
       'Content-Type': 'application/json',
       'Accept': 'application/json',
-      'X-Platform': '${GetPlatform.isMobile ? 'mobile' : 'web'}',
+      'X-Platform': GetPlatform.isMobile ? 'mobile' : 'web',
       'X-App-Version': '1.0.0',
     });
 

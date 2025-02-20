@@ -1,6 +1,7 @@
 import 'package:dio/dio.dart' as dio; // Add alias here
 import 'package:get/get.dart';
-import 'package:payroll_by_cc/core/config/env/env.dart';
+import 'package:myapp/core/config/env/env.dart';
+
 
 class ApiProvider {
   final Env _env = Get.find<Env>();

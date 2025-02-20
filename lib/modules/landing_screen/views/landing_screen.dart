@@ -1,11 +1,12 @@
-
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:payroll_by_cc/core/theme/app_colors.dart';
+import 'package:myapp/core/config/env/env.dart';
+import 'package:myapp/core/theme/app_colors.dart';
+import 'package:get/get.dart';
 
 class LandingScreen extends StatefulWidget {
-  const LandingScreen({Key? key}) : super(key: key);
+  const LandingScreen({super.key});
 
   @override
   State<LandingScreen> createState() => _LandingScreenState();
@@ -30,7 +31,8 @@ class _LandingScreenState extends State<LandingScreen> {
 
   /// Shows tooltip exactly above the email field
   void _showTooltip() {
-    final renderBox = _emailFieldKey.currentContext?.findRenderObject() as RenderBox?;
+    final renderBox =
+        _emailFieldKey.currentContext?.findRenderObject() as RenderBox?;
     if (renderBox == null) return;
 
     final overlay = Overlay.of(context);
@@ -39,37 +41,44 @@ class _LandingScreenState extends State<LandingScreen> {
 
     _overlayEntry?.remove();
     _overlayEntry = OverlayEntry(
-      builder: (context) => Positioned(
-        left: position.dx + (size.width / 2) - 75, // Centers tooltip
-        top: position.dy + 65, // Places tooltip above email field
-        child: Material(
-          color: Colors.transparent,
-          child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(5),
-              boxShadow: [
-                BoxShadow(
-                  color: Colors.black.withOpacity(0.2),
-                  blurRadius: 5,
+      builder:
+          (context) => Positioned(
+            left: position.dx + (size.width / 2) - 75, // Centers tooltip
+            top: position.dy + 65, // Places tooltip above email field
+            child: Material(
+              color: Colors.transparent,
+              child: Container(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 6,
                 ),
-              ],
-            ),
-            child: Row(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                const Icon(Icons.error, color: Colors.orange, size: 20),
-                const SizedBox(width: 6),
-                Text(
-                  "Please fill in this field.",
-                  style: GoogleFonts.roboto(color: Colors.black, fontSize: 14),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(5),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withOpacity(0.2),
+                      blurRadius: 5,
+                    ),
+                  ],
                 ),
-              ],
+                child: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.error, color: Colors.orange, size: 20),
+                    const SizedBox(width: 6),
+                    Text(
+                      "Please fill in this field.",
+                      style: GoogleFonts.roboto(
+                        color: Colors.black,
+                        fontSize: 14,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     );
 
     overlay.insert(_overlayEntry!);
@@ -117,7 +126,8 @@ class _LandingScreenState extends State<LandingScreen> {
                   'Pay your employees using any credit card. Earn rewards while we handle the payroll payments securely.',
                   style: GoogleFonts.roboto(
                     fontSize: 16,
-                    color: Colors.white,fontWeight: FontWeight.bold,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
 
@@ -214,7 +224,11 @@ class _LandingScreenState extends State<LandingScreen> {
                       style: GoogleFonts.roboto(color: Colors.white),
                     ),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        final val = Get.find<Env>();
+                        print(val.baseUrl);
+                        // Navigate to login screen
+                      },
                       child: Text(
                         'Log in',
                         style: GoogleFonts.roboto(
