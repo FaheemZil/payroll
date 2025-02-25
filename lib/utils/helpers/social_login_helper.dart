@@ -1,4 +1,6 @@
+
 import 'package:flutter/material.dart';
+import 'package:myapp/utils/helpers/asset_helper.dart';
 
 class _SocialLoginModel {
   _SocialLoginModel({required this.icon, required this.url});
@@ -9,36 +11,36 @@ class _SocialLoginModel {
 class SocialLoginHelper {
   static final socialLogin = [
     _SocialLoginModel(
-      icon: Text('data'),
+      icon: Assets.images.google.svg(),
       url: 'loginwith/google',
     ),
     _SocialLoginModel(
-      icon: Text('data'),
+      icon: Assets.images.linkedIn.svg(),
       url: 'loginwith/linkedin',
     ),
     _SocialLoginModel(
-        icon: Text('data'),
+      icon: Assets.images.microsoft.svg(),
       url: 'loginwith/microsoft',
     ),
     _SocialLoginModel(
-      icon: Text('data'),
+      icon: Assets.images.xero.svg(),
       url: 'api/v4/loginwith/xero',
     ),
     _SocialLoginModel(
-        icon: Text('data'),
+      icon: Assets.images.amazon.svg(),
       url: 'loginwith/amazon',
     ),
-    _SocialLoginModel(      icon: Text('data'), url: 'loginwith/azure'),
+    _SocialLoginModel(icon: Assets.images.office.svg(), url: 'loginwith/azure'),
     _SocialLoginModel(
-           icon: Text('data'),
+      icon: Assets.images.freshbooks.svg(),
       url: 'api/v4/loginwith/freshbooks',
     ),
     _SocialLoginModel(
-          icon: Text('data'),
+      icon: Assets.images.twitter.svg(),
       url: 'loginwith/twitter',
     ),
     _SocialLoginModel(
-          icon: Text('data'),
+      icon: Assets.images.intuit.svg(),
       url: 'socialauth/quickbook',
     ),
   ];

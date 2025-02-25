@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:myapp/data/controllers/auth_controller.dart';
+import 'package:myapp/data/controllers/loader_controller.dart';
+import 'package:myapp/modules/landing_screen/views/landing_screen.dart';
+import 'package:myapp/modules/landing_screen/views/screens/splash_screen.dart';
+
 import 'core/config/app_config.dart';
 import 'core/config/environment.dart';
-import 'modules/landing_screen/views/landing_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
+  Get.put(LoaderController());
   // Initialize environment (default to staging)
   const env = String.fromEnvironment('ENV', defaultValue: Environment.staging);
 
@@ -23,10 +27,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      navigatorKey: navigatorKey,
       title: 'Flutter Environment Demo',
       initialRoute: '/',
-      home: LandingScreen(),
+      home: SplashScreen(),
       // ... other config
     );
   }
 }
+
+final navigatorKey = GlobalKey<NavigatorState>();
+
+BuildContext get currentContext => navigatorKey.currentContext!;
