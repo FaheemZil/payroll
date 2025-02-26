@@ -29,7 +29,7 @@ class AuthService {
   Future<LoginResponse> login(LoginRequest payload) async {
     final Response response = await dio.post(
       AuthApiEndpoints.login,
-      data: {"username": "shijil326@gmail.com", "password": "Tyler!123"},
+      data: payload.toJson(),
     );
     debugPrint('-----------------${response.data}--------------');
     return LoginResponse.fromJson(response.data);

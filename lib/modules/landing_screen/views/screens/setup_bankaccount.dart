@@ -5,6 +5,7 @@ import 'package:myapp/core/theme/app_colors.dart';
 import 'package:myapp/core/widgets/cdropdown.dart';
 import 'package:myapp/core/widgets/celevated_button.dart';
 import 'package:myapp/core/widgets/cfile_picker.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/modules/landing_screen/views/widgets/common_logo_screen.dart';
 
 class SetupBankaccount extends StatelessWidget {
@@ -51,7 +52,7 @@ class SetupBankaccount extends StatelessWidget {
                     paymentTypes
                         .map(
                           (type) =>
-                              DropdownMenuItem(value: type, child: Text(type)),
+                              DropdownMenuItem(value: type, child: cText(type)),
                         )
                         .toList(),
                 onChanged: (newValue) {
@@ -69,7 +70,7 @@ class SetupBankaccount extends StatelessWidget {
             },
           ),
           SizedBox(height: 10),
-          Text(
+          cText(
             "PDF, PNG, JPG or GIF (MAX. 5MB)",
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.grey, fontSize: 12),
@@ -77,12 +78,12 @@ class SetupBankaccount extends StatelessWidget {
           SizedBox(height: 20),
 
           // Instruction text
-          Text(
+          cText(
             "Please upload your bank statement that shows you have payroll from this account.",
             style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
           ),
           SizedBox(height: 10),
-          Text(
+          cText(
             "Please ensure that this bank account, integrated via Plaid, is exclusively designated for payroll purposes by your payroll provider.",
             style: TextStyle(color: AppColors.textSecondary, fontSize: 12),
           ),

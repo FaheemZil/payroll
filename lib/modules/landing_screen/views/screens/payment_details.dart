@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/core/widgets/cdate_formfield.dart';
 import 'package:myapp/core/widgets/celevated_button.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/ctext_field.dart';
 import 'package:myapp/core/widgets/gap.dart';
 import 'package:myapp/modules/landing_screen/views/widgets/common_logo_screen.dart';
@@ -46,7 +47,7 @@ class _PaymentDetailsFormState extends State<PaymentDetailsForm> {
             ),
           ),
           HGap(8),
-              Expanded(child: CDateFormField()),
+          Expanded(child: CDateFormField()),
 
           CTextField(
             labelText: "Card Holder Name",
@@ -69,38 +70,39 @@ class _PaymentDetailsFormState extends State<PaymentDetailsForm> {
               return null;
             },
           ),
-           Expanded(
-             child: CTextField(
-               labelText: "Expiration Date",
-               controller: _expirationDateController,
-               validator: (value) {
-                 if (value == null || value.isEmpty) {
-                   return 'Please enter the expiration date';
-                 }
-                 return null;
-               },
-             ),
-           ),
-           SizedBox(width: 8),CTextField(
-                      labelText: "CVV",
-                      controller: _cvvController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the CVV';
-                        }
-                        return null;
-                      },
-                    ),
-              CTextField(
-                      labelText: "Billing Zip",
-                      controller: _billingZipController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter the billing zip code';
-                        }
-                        return null;
-                      },
-                    ),
+          Expanded(
+            child: CTextField(
+              labelText: "Expiration Date",
+              controller: _expirationDateController,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'Please enter the expiration date';
+                }
+                return null;
+              },
+            ),
+          ),
+          SizedBox(width: 8),
+          CTextField(
+            labelText: "CVV",
+            controller: _cvvController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter the CVV';
+              }
+              return null;
+            },
+          ),
+          CTextField(
+            labelText: "Billing Zip",
+            controller: _billingZipController,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'Please enter the billing zip code';
+              }
+              return null;
+            },
+          ),
           SizedBox(height: 20),
           CElevatedButton.modal(
             onPressed: () {
@@ -108,7 +110,7 @@ class _PaymentDetailsFormState extends State<PaymentDetailsForm> {
                 // Form is valid, proceed with payment logic
               }
             },
-            child: Text("Split Payments"),
+            child: cText("Split Payments"),
           ),
           VGap(10),
           CElevatedButton.modal(
@@ -117,7 +119,7 @@ class _PaymentDetailsFormState extends State<PaymentDetailsForm> {
                 // Form is valid, proceed with payment logic
               }
             },
-            child: Text("Continue"),
+            child: cText("Continue"),
           ),
         ],
       ),

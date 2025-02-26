@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:myapp/core/widgets/cdropdown.dart';
 import 'package:myapp/core/widgets/celevated_button.dart';
 import 'package:myapp/core/widgets/cfile_picker.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/gap.dart';
 import 'package:myapp/modules/landing_screen/views/widgets/common_logo_screen.dart';
 
@@ -42,7 +43,7 @@ class _PayrollInformationState extends State<PayrollInformation> {
                     .map(
                       (provider) => DropdownMenuItem(
                         value: provider,
-                        child: Text(provider),
+                        child: cText(provider),
                       ),
                     )
                     .toList(),

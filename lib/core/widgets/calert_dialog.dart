@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/core/theme/app_colors.dart';
 import 'package:myapp/core/widgets/celevated_button.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/gap.dart';
 import 'package:myapp/data/models/error_resoponse.dart';
 import 'package:myapp/main.dart';
@@ -132,7 +133,7 @@ class CustomAlertDialog extends StatelessWidget {
                 children: [
                   Container(
                     width: 40,
-                    height: 40,
+                    height: 60,
                     decoration: BoxDecoration(
                       color: iconColor.withValues(alpha: .2),
                       shape: BoxShape.circle,
@@ -144,7 +145,7 @@ class CustomAlertDialog extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
+                        cText(
                           title,
                           style: const TextStyle(
                             fontSize: 18,
@@ -154,7 +155,7 @@ class CustomAlertDialog extends StatelessWidget {
                         ),
                         if (subTitle.isNotEmpty) const SizedBox(height: 4),
                         if (subTitle.isNotEmpty)
-                          Text(
+                          cText(
                             subTitle,
                             style: const TextStyle(
                               fontSize: 14,
@@ -187,7 +188,7 @@ class CustomAlertDialog extends StatelessWidget {
                                   color: Colors.red,
                                 ),
                                 const SizedBox(width: 8),
-                                Text(
+                                cText(
                                   error.errorMsg ?? '',
                                   style: const TextStyle(
                                     fontSize: 12,
@@ -203,35 +204,40 @@ class CustomAlertDialog extends StatelessWidget {
 
             // Buttons
             Padding(
-              padding: const EdgeInsets.all(16),
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  if ({
-                    AlertType.error,
-                    AlertType.noConnection,
-                  }.contains(alertType)) ...[
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(
-                            vertical: 12,
-                          ), // Adjusting height
+                  SizedBox(
+                    height: 35,
+                    width: 100,
+                    child: OutlinedButton(
+                      onPressed: () => Navigator.pop(context),
+                      style: OutlinedButton.styleFrom(
+                        foregroundColor: AppColors.textNormalBlack,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                        ), // Adjusting height
 
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(
-                              12,
-                            ), // Border radius
-                          ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(
+                            12,
+                          ), // Border radius
                         ),
-                        child: const Text("Cancel"),
                       ),
+                      child: cText("OK"),
                     ),
-                    const SizedBox(width: 16),
-                  ],
-                  Expanded(
-                    child: CElevatedButton(onPressed: onTap, text: buttonText),
                   ),
+
+                  if (AlertType.error != alertType) ...[
+                    const SizedBox(width: 16),
+                    CElevatedButton(
+                      width: 100,
+                      onPressed: onTap,
+                      text: buttonText,
+                      height: 35,
+                    ),
+                  ],
                 ],
               ),
             ),

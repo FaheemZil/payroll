@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:myapp/core/theme/app_colors.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 
 class CAppBar extends StatelessWidget implements PreferredSizeWidget {
   const CAppBar({
@@ -19,7 +20,6 @@ class CAppBar extends StatelessWidget implements PreferredSizeWidget {
     this.titleSpacing,
     super.key,
   });
-
 
   final List<Widget>? actions;
   final bool automaticallyImplyLeading;
@@ -42,14 +42,14 @@ class CAppBar extends StatelessWidget implements PreferredSizeWidget {
   Widget build(BuildContext context) {
     return AppBar(
       scrolledUnderElevation: 0,
-      title: title ?? Text(titleText),
+      title: title ?? cText(titleText),
       actions: actions,
       leading: leading,
       automaticallyImplyLeading: automaticallyImplyLeading,
-      backgroundColor: backgroundColor ,
-      foregroundColor: foregroundColor ,
+      backgroundColor: backgroundColor,
+      foregroundColor: foregroundColor,
       systemOverlayStyle: SystemUiOverlayStyle(
-        statusBarColor: backgroundColor ,
+        statusBarColor: backgroundColor,
         statusBarBrightness: statusBarBrightness,
         statusBarIconBrightness: statusBarBrightness,
       ),

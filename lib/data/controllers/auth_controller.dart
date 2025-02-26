@@ -19,6 +19,7 @@ class AuthController extends GetxController {
       await AuthService(client).checkUserStatus(name);
 
       isNewuser = true;
+      update();
     } catch (e) {
       debugPrint('------------------hellooo----------');
       isNewuser = false;

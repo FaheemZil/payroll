@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/foundation.dart';
+import 'package:myapp/utils/helpers/log_helper.dart';
 import 'package:myapp/utils/interceptors/api_interceptor.dart';
 
 Dio get client {
@@ -11,7 +12,8 @@ Dio get client {
 
   dio.interceptors.add(ApiInterceptor());
 
-  dio.interceptors.add(LogInterceptor(requestBody: true, responseBody: true));
+  dio.interceptors.add(LoggerInterceptor());
+
   dio.interceptors.add(ErrorInterceptor());
   return dio;
 }

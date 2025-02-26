@@ -4,6 +4,7 @@ class LoaderController extends GetxController {
   List buttonLoader = [];
   List loader = [];
 
+  static LoaderController get to => Get.find();
   void showLoader() {
     loader.add(null);
     update();

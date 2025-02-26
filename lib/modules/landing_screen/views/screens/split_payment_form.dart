@@ -1,7 +1,7 @@
-
 import 'package:flutter/material.dart';
 import 'package:myapp/core/theme/app_colors.dart';
 import 'package:myapp/core/widgets/celevated_button.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/ctext_field.dart';
 import 'package:myapp/core/widgets/gap.dart';
 import 'package:myapp/modules/landing_screen/views/widgets/common_logo_screen.dart';
@@ -41,7 +41,7 @@ class _SplitPaymentFormState extends State<SplitPaymentForm> {
               children: [
                 Icon(Icons.credit_card, color: AppColors.white),
                 HGap(8),
-                Text('Second Card'),
+                cText('Second Card'),
               ],
             ),
           ),
@@ -61,11 +61,11 @@ class _SplitPaymentFormState extends State<SplitPaymentForm> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
+              cText(
                 "Total Amount:",
                 style: TextStyle(color: AppColors.textNormalBlack),
               ),
-              Text(
+              cText(
                 "\$333",
                 style: TextStyle(
                   color: AppColors.secondaryColor,

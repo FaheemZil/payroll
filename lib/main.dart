@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:myapp/data/controllers/auth_controller.dart';
+import 'package:myapp/core/widgets/cloader.dart';
 import 'package:myapp/data/controllers/loader_controller.dart';
-import 'package:myapp/modules/landing_screen/views/landing_screen.dart';
 import 'package:myapp/modules/landing_screen/views/screens/splash_screen.dart';
+import 'package:myapp/utils/helpers/route_helper.dart';
 
 import 'core/config/app_config.dart';
 import 'core/config/environment.dart';
@@ -27,10 +27,12 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
+      getPages: AppPages.getPages,
       navigatorKey: navigatorKey,
       title: 'Flutter Environment Demo',
-      initialRoute: '/',
-      home: SplashScreen(),
+      // initialRoute: '/',
+      // home: SplashScreen(),
+      builder: (context, child) => CLoader(child: child),
       // ... other config
     );
   }

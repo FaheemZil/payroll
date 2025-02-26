@@ -3,12 +3,15 @@ import 'package:get/get.dart';
 import 'package:get/get_rx/src/rx_workers/utils/debouncer.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:myapp/core/theme/app_colors.dart';
+import 'package:myapp/core/widgets/calert_dialog.dart';
 import 'package:myapp/core/widgets/celevated_button.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/ctext_field.dart';
 import 'package:myapp/data/controllers/auth_controller.dart';
 import 'package:myapp/data/models/login/login.dart';
 import 'package:myapp/modules/landing_screen/views/social_media_icons.dart';
 import 'package:myapp/modules/landing_screen/views/widgets/powered_by.dart';
+import 'package:myapp/utils/helpers/route_helper.dart';
 import 'package:myapp/utils/helpers/validation_helper.dart';
 
 class LandingScreen extends StatefulWidget {
@@ -23,17 +26,17 @@ class _LandingScreenState extends State<LandingScreen> {
   final TextEditingController _passwordController = TextEditingController();
   final _auth = Get.put(AuthController());
   final GlobalKey _emailFieldKey = GlobalKey();
+  final buttonKey = UniqueKey();
   final Debouncer _debouncer = Debouncer(delay: Duration(milliseconds: 700));
   bool _acceptedTerms = false; // Checkbox state
   OverlayEntry? _overlayEntry;
 
-  /// Validates input and triggers tooltip or success message
   void _validateAndSubmit() {
-    final validationMesage = FormValidation.validateEmail(
+    final validationMessage = FormValidation.validateEmail(
       _emailController.text,
     );
-    if (validationMesage != null) {
-      _showTooltip(validationMesage);
+    if (validationMessage != null) {
+      _showTooltip(validationMessage);
     } else if (!_acceptedTerms && _auth.isNewuser) {
       _showSnackbar("Please accept the Terms & Conditions.");
     } else {
@@ -44,8 +47,10 @@ class _LandingScreenState extends State<LandingScreen> {
             password: _passwordController.text,
           ),
         );
+      } else {
+        _auth.authService.registerAsGuest(_emailController.text);
       }
-      _showSnackbar("Form Submitted Successfully!");
+      Get.toNamed(AppRoutes.payrollInformation);
     }
   }
 
@@ -87,12 +92,9 @@ class _LandingScreenState extends State<LandingScreen> {
                   children: [
                     const Icon(Icons.error, color: Colors.orange, size: 20),
                     const SizedBox(width: 6),
-                    Text(
+                    cText(
                       message,
-                      style: GoogleFonts.roboto(
-                        color: Colors.black,
-                        fontSize: 14,
-                      ),
+                      style: TextStyle(color: Colors.black, fontSize: 14),
                     ),
                   ],
                 ),
@@ -102,18 +104,20 @@ class _LandingScreenState extends State<LandingScreen> {
     );
 
     overlay.insert(_overlayEntry!);
-
-    // Auto-hide tooltip after 2 seconds
     Future.delayed(const Duration(seconds: 2), () {
       _overlayEntry?.remove();
       _overlayEntry = null;
     });
   }
 
-  /// Shows snackbar messages for form validation
   void _showSnackbar(String message) {
     ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(content: Text(message), backgroundColor: Colors.red),
+      SnackBar(
+        content: cText(message),
+        backgroundColor: Colors.red,
+        behavior: SnackBarBehavior.floating,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+      ),
     );
   }
 
@@ -124,170 +128,181 @@ class _LandingScreenState extends State<LandingScreen> {
       body: Center(
         child: SingleChildScrollView(
           padding: const EdgeInsets.all(24.0),
-          child: Container(
-            constraints: const BoxConstraints(maxWidth: 400),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Title
-                Text(
-                  'PAYROLL BY CREDIT CARD',
-                  style: GoogleFonts.roboto(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 25,
-                    color: Colors.white,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Title
+              cText(
+                'PAYROLL BY CREDIT CARD',
+                style: GoogleFonts.poppins(
+                  fontWeight: FontWeight.bold,
+                  fontSize: 36,
+                  color: AppColors.white,
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              // Subtitle
+              cText(
+                'Pay your employees using any credit card. Earn rewards while we handle the payroll payments securely.',
+                style: GoogleFonts.poppins(
+                  fontSize: 16,
+                  color: Colors.white.withValues(alpha: 0.8),
+                ),
+              ),
+
+              const SizedBox(height: 32),
+
+              // Email Input Field
+              CTextField(
+                onChanged: (value) {
+                  _debouncer.call(() {
+                    if (FormValidation.validateEmail(value) == null) {
+                      _auth.userStatus(value);
+                    }
+                  });
+                },
+                key: _emailFieldKey,
+                controller: _emailController,
+                decoration: InputDecoration(
+                  filled: true,
+                  fillColor: Colors.white,
+                  hintText: 'Enter your email',
+                  hintStyle: GoogleFonts.poppins(color: Colors.grey),
+                  contentPadding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(8),
+                    borderSide: BorderSide.none,
                   ),
                 ),
+              ),
 
-                const SizedBox(height: 16),
+              const SizedBox(height: 16),
 
-                // Subtitle
-                Text(
-                  'Pay your employees using any credit card. Earn rewards while we handle the payroll payments securely.',
-                  style: GoogleFonts.roboto(
-                    fontSize: 14,
-                    color: Colors.white,
-                    fontWeight: FontWeight.bold,
-                  ),
-                ),
-
-                const SizedBox(height: 24),
-
-                // Email Input Field
-                CTextField(
-                  onChanged: (value) {
-                    _debouncer.call(() {
-                      if (FormValidation.validateEmail(value) == null) {
-                        _auth.userStatus(value);
-                      }
-                    });
-                  },
-                  key: _emailFieldKey,
-                  controller: _emailController,
-                  decoration: InputDecoration(
-                    filled: true,
-                    fillColor: Colors.white,
-                    hintText: 'Enter your email',
-                    hintStyle: GoogleFonts.roboto(color: Colors.grey),
-                    contentPadding: const EdgeInsets.symmetric(
-                      horizontal: 16,
-                      vertical: 12,
-                    ),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(8),
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
-                ),
-                GetBuilder<AuthController>(
-                  init: AuthController(),
-                  builder: (authController) {
-                    if (authController.isNewuser) {
-                      return Row(
-                        children: [
-                          Checkbox(
-                            value: _acceptedTerms,
-                            onChanged: (bool? value) {
-                              setState(() {
-                                _acceptedTerms = value ?? false;
-                              });
-                            },
-                            checkColor: Colors.white,
-                            activeColor: Colors.blueGrey,
-                          ),
-                          Flexible(
-                            child: RichText(
-                              text: TextSpan(
-                                text: 'I accept the ',
-                                style: GoogleFonts.roboto(color: Colors.white),
-                                children: [
-                                  TextSpan(
-                                    text: 'Terms & Conditions',
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      decoration: TextDecoration.underline,
-                                    ),
-                                  ),
-                                ],
+              // Password Input Field or Terms & Conditions
+              GetBuilder<AuthController>(
+                init: AuthController(),
+                builder: (authController) {
+                  if (authController.isNewuser) {
+                    return Row(
+                      children: [
+                        Checkbox(
+                          value: _acceptedTerms,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              _acceptedTerms = value ?? false;
+                            });
+                          },
+                          checkColor: Colors.white,
+                          activeColor: Colors.blueGrey,
+                        ),
+                        Flexible(
+                          child: RichText(
+                            text: TextSpan(
+                              text: 'I accept the ',
+                              style: GoogleFonts.poppins(
+                                color: Colors.white,
+                                fontSize: 14,
                               ),
+                              children: [
+                                TextSpan(
+                                  text: 'Terms & Conditions',
+                                  style: GoogleFonts.poppins(
+                                    color: Colors.white,
+                                    decoration: TextDecoration.underline,
+                                  ),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
-                      );
-                    } else {
-                      return CTextField(
-                        padding: EdgeInsets.only(top: 5, bottom: 20),
-                        controller: _passwordController,
-                        decoration: InputDecoration(
-                          filled: true,
-                          fillColor: Colors.white,
-                          hintText: 'Password',
-                          hintStyle: GoogleFonts.roboto(color: Colors.grey),
-                          contentPadding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 12,
-                          ),
-                          border: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(8),
-                            borderSide: BorderSide.none,
-                          ),
                         ),
-                      );
-                    }
-                  },
-                ),
-
-                SizedBox(
-                  width: double.infinity,
-                  child: CElevatedButton(
-                    onPressed: _validateAndSubmit,
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: Color.fromARGB(0, 0, 85, 113),
-                      foregroundColor: AppColors.white,
-                      padding: const EdgeInsets.symmetric(vertical: 14),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(8),
+                      ],
+                    );
+                  } else {
+                    return CTextField(
+                      controller: _passwordController,
+                      decoration: InputDecoration(
+                        filled: true,
+                        fillColor: Colors.white,
+                        hintText: 'Password',
+                        hintStyle: GoogleFonts.poppins(color: Colors.grey),
+                        contentPadding: const EdgeInsets.symmetric(
+                          horizontal: 16,
+                          vertical: 14,
+                        ),
+                        border: OutlineInputBorder(
+                          borderRadius: BorderRadius.circular(8),
+                          borderSide: BorderSide.none,
+                        ),
                       ),
+                    );
+                  }
+                },
+              ),
+
+              const SizedBox(height: 24),
+
+              // Getting Started Button
+              SizedBox(
+                height: 55,
+                width: double.infinity,
+                child: CElevatedButton(
+                  key: buttonKey,
+                  onPressed: _validateAndSubmit,
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xff005571),
+                    foregroundColor: AppColors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
                     ),
-                    text: 'Getting Started',
+                  ),
+                  child: cText(
+                    'Getting Started',
+                    style: GoogleFonts.poppins(fontSize: 16),
                   ),
                 ),
-                const SizedBox(height: 24),
+              ),
 
-                // Already have an account? Log in
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Text(
-                      'Already have an account? ',
-                      style: GoogleFonts.roboto(color: Colors.white),
+              const SizedBox(height: 24),
+
+              // Already have an account? Log in
+              Center(
+                child: Text.rich(
+                  TextSpan(
+                    text: 'Already have an account? ',
+                    style: GoogleFonts.poppins(
+                      color: Colors.white,
+                      fontSize: 14,
                     ),
-                    GestureDetector(
-                      onTap: () {
-                        // Navigate to login screen
-                      },
-                      child: Text(
-                        'Log in',
-                        style: GoogleFonts.roboto(
+                    children: [
+                      TextSpan(
+                        text: 'Log in',
+                        style: GoogleFonts.poppins(
                           color: Colors.white,
                           decoration: TextDecoration.underline,
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
+              ),
 
-                const SizedBox(height: 24),
+              const SizedBox(height: 32),
 
-                // Social login icons
-                Center(child: SocialMediaButtons()),
+              // Social login icons
+              Center(child: SocialMediaButtons()),
 
-                const SizedBox(height: 24),
+              const SizedBox(height: 24),
 
-                // ZIL Money Branding
-                Center(child: PoweredByWidget()),
-              ],
-            ),
+              // ZIL Money Branding
+              Center(child: PoweredByWidget()),
+            ],
           ),
         ),
       ),

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/core/theme/app_colors.dart';
 import 'package:myapp/core/widgets/calert_dialog.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/gap.dart';
 import 'package:myapp/main.dart';
 import 'package:myapp/utils/helpers/social_login_helper.dart';
@@ -14,7 +15,7 @@ class SocialMediaButtons extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
+        cText(
           'Or Login with',
           style: TextStyle(color: AppColors.textTertiary, fontSize: 13),
         ),
@@ -139,7 +140,7 @@ class _SignInHelper {
 // CTextButton(
 //       onPressed: () {
 //         cAlertDialog<void>(
-//           title: const Text(
+//           title: const cText(
 //             'Social Login',
 //             textAlign: TextAlign.center,
 //           ),

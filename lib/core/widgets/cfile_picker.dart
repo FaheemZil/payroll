@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/ctext_field.dart';
 import 'package:myapp/utils/helpers/validation_helper.dart';
 
@@ -57,6 +58,6 @@ class _CFilePickerState extends State<CFilePicker> {
   void _showError(String message) {
     ScaffoldMessenger.of(
       context,
-    ).showSnackBar(SnackBar(content: Text(message)));
+    ).showSnackBar(SnackBar(content: cText(message)));
   }
 }

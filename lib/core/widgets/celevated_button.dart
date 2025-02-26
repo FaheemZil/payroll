@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get_state_manager/src/simple/get_state.dart';
 import 'package:myapp/core/theme/app_colors.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/data/controllers/loader_controller.dart';
 
 enum ModalButtonType { small, medium, large }
@@ -70,7 +71,7 @@ class CElevatedButton extends StatelessWidget {
                       color: loaderColor ?? AppColors.white,
                       strokeWidth: 3,
                     )
-                    : child ?? Text(text, style: textStyle),
+                    : child ?? cText(text, style: textStyle),
           ),
         );
       },

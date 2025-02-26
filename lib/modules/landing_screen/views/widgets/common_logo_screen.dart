@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:myapp/core/widgets/capp_bar.dart';
+import 'package:myapp/core/widgets/ctext.dart';
 import 'package:myapp/core/widgets/gap.dart';
 import 'package:myapp/modules/landing_screen/views/widgets/powered_by.dart';
 
@@ -16,7 +17,7 @@ class CommonLogoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: CAppBar(title: Text(title)),
+      appBar: CAppBar(title: cText(title)),
       body: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
@@ -26,7 +27,7 @@ class CommonLogoScreen extends StatelessWidget {
               children: [
                 // SizedBox(
                 //   height:
-                //       73, 
+                //       73,
                 //   child: Stepper(
                 //     currentStep: step ?? 1,
 
@@ -40,14 +41,14 @@ class CommonLogoScreen extends StatelessWidget {
                 //       return Step(isActive:isActive,stepStyle: StepStyle(color:isActive? AppColors.primaryColor:null),
                 //         title: SizedBox.shrink(),
                 //         content: SizedBox.shrink(), // No content needed
-                       
+
                 //       );
                 //     }),
                 //   ),
                 // ),
                 if (step != null) ...[
                   VGap(12),
-                  Text(
+                  cText(
                     "Step $step of 5",
                     style: TextStyle(fontSize: 13, color: Colors.grey),
                   ),
